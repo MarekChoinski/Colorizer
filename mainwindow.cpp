@@ -71,7 +71,7 @@ void MainWindow::on_pushButton_clicked()
                                                 tr("Text files to encode (*.txt);"));
     if(!fileName.isEmpty())
     {
-        Encode encode(fileName);
+       Encode encode(fileName);
     }
 
 

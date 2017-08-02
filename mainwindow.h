@@ -9,7 +9,7 @@
 #include <QTextStream>
 #include <QDebug>
 #include <QSettings>
-
+#include <QDesktopServices>
 //#include <random>
 #include <ctime>
 #include <thread>

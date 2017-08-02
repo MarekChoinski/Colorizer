@@ -14,6 +14,7 @@
 #include <QIODevice>
 #include <vector>
 #include <string>
+#include <QDesktopServices>
 
 class Encode
 {

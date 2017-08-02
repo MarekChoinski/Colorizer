@@ -1,12 +1,17 @@
 #include "decode.hpp"
-//FIXME check alpha channel
+
+
 
 Decode::Decode(QString i_fileName)
 {
+
+
         QImage image  = loadImageFromFile(i_fileName);
         QString text = translateImagetoText(image);
         qDebug()<<text;
         saveTextToFile(text);
+
+
 }
 
 
@@ -81,6 +86,11 @@ void Decode::saveTextToFile(QString text)
         outStream<<text;
 
         f.close();
+
+        QSettings settings("MarekChoinski","Colorizer" );
+        if( settings.value("pref/s_openAfterCoding").toBool() )
+            QDesktopServices::openUrl(QUrl("file:///"+fileName, QUrl::TolerantMode));
+
     }
 }
 

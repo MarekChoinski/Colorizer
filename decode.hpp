@@ -2,7 +2,7 @@
 #define DECODE_HPP
 
 #include <QString>
-#include <QStringList>
+//#include <QStringList>
 #include <QFileDialog>
 #include <QDir>
 #include <QMessageBox>
@@ -15,6 +15,8 @@
 #include <QIODevice>
 #include <vector>
 #include <string>
+#include <QSettings>
+#include <QDesktopServices>
 
 class Decode
 {

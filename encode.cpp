@@ -1,14 +1,6 @@
 #include "encode.hpp"
 
-#include <QString>
-#include <QStringList>
-#include <QFileDialog>
-#include <QDir>
-#include <QMessageBox>
-#include <QTextStream>
-#include <QDebug>
-#include <QFile>
-#include <QIODevice>
+
 
 Encode::Encode(QString i_fileName)
 {
@@ -21,6 +13,8 @@ Encode::Encode(QString i_fileName)
     //qDebug()<<"m_useAlphaChannel "<<m_useAlphaChannel;
 
     drawTextOnImage (loadTextFromFile(i_fileName));
+
+
 }
 
 QString Encode::loadTextFromFile(QString fileName) const
@@ -112,6 +106,8 @@ void Encode::drawTextOnImage(QString text)
 
     saveImage(image);
 
+
+
 }
 
 
@@ -145,6 +141,8 @@ int Encode::widthOfImage(int a) const
 
 void Encode::saveImage(QImage image)//TODO ? DontUseNativeDialog
 {
+    QSettings settings("MarekChoinski","Colorizer" );
+
     QString fileName = QFileDialog::getSaveFileName(
     Q_NULLPTR,
     ("Save image"),
@@ -154,6 +152,9 @@ void Encode::saveImage(QImage image)//TODO ? DontUseNativeDialog
         if(!fileName.isEmpty())
         {
             image.save(fileName, "PNG", 100 );
+
+            if( settings.value("pref/s_openAfterCoding").toBool() )
+                QDesktopServices::openUrl(QUrl("file:///"+fileName, QUrl::TolerantMode));
         }
 
 }
