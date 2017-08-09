@@ -5,12 +5,10 @@
 Decode::Decode(QString i_fileName)
 {
 
-
         QImage image  = loadImageFromFile(i_fileName);
         QString text = translateImagetoText(image);
-        qDebug()<<text;
-        saveTextToFile(text);
 
+        saveTextToFile(text);
 
 }
 
@@ -24,8 +22,6 @@ QImage Decode::loadImageFromFile(QString &fileName) const
 QString Decode::translateImagetoText(QImage &image)
 {
     QString text="";
-    qDebug()<<image.height()<<" X "<<image.width();
-
 
     for(int i=0; i<image.height(); i++)//y
     {

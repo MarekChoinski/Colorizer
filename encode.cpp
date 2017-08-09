@@ -6,14 +6,9 @@ Encode::Encode(QString i_fileName)
 {
     QSettings settings("MarekChoinski","Colorizer" );
 
-    qDebug()<<"bool value: "<<settings.value("pref/s_useAlphaChannel").toBool();
-    qDebug()<<"int value: "<<settings.value("pref/s_useAlphaChannel").toInt();
-
     m_useAlphaChannel = settings.value("pref/s_useAlphaChannel").toBool();
-    //qDebug()<<"m_useAlphaChannel "<<m_useAlphaChannel;
 
     drawTextOnImage (loadTextFromFile(i_fileName));
-
 
 }
 
@@ -39,26 +34,21 @@ QString Encode::loadTextFromFile(QString fileName) const
 void Encode::drawTextOnImage(QString text)
 {
 
-
     fixPolishCharacters(text);
-    qDebug()<<"Fixed text: "<<text;
-    qDebug()<<"Size of text: "<<text.size();
 
     int amountOfPixels = checkAmountOfPixels( text.size() );
-    qDebug()<<"amountOfPixels: "<< amountOfPixels;
 
     QImage image(widthOfImage( amountOfPixels ),
                  heightOfImage( amountOfPixels ),
-                 QImage::Format_ARGB32);//TODO check also others formats
+                 QImage::Format_ARGB32);
+    //TODO not sure if there are faster formats
 
 
     image.fill(QColor(255,255,255,255));
-    qDebug()<<"Size of image: "<< image.width()<<" X " << image.height();
 
     int textIndex=0;
 
-    //TODO make it work XD
-    //#define isInCharset text[textIndex]>=0 && text[textIndex]<=145
+    #define isInCharset text[textIndex]>=0 && text[textIndex]<=145
 
     for(int i=0;i<image.height();i++)//y
     {
@@ -69,44 +59,39 @@ void Encode::drawTextOnImage(QString text)
             int b=0;
             int a=255;
 
-            if(text[textIndex].unicode()>=0 && text[textIndex].unicode()<=145)
+            if(isInCharset)
             {
                 r = text[textIndex].unicode();
-                qDebug()<<textIndex<< "R"<<text[textIndex]<<text[textIndex].unicode();
 
             }textIndex++;
 
-            if(text[textIndex].unicode()>=0 && text[textIndex].unicode()<=145)
+            if(isInCharset)
             {
                 g = text[textIndex].unicode();
-                qDebug()<<textIndex<< "G"<<text[textIndex]<<text[textIndex].unicode();
 
             }textIndex++;
 
-            if(text[textIndex].unicode()>=0 && text[textIndex].unicode()<=145)
+            if(isInCharset)
             {
                 b = text[textIndex].unicode();
-                qDebug()<<textIndex<< "B"<<text[textIndex]<<text[textIndex].unicode();
 
             }textIndex++;
 
-            if((text[textIndex].unicode()>=0 && text[textIndex].unicode()<=145) && m_useAlphaChannel)
+
+            //alpha channel
+            if(m_useAlphaChannel && isInCharset)
             {
                 a = text[textIndex].unicode();
-                qDebug()<<textIndex<< "A"<<text[textIndex]<<text[textIndex].unicode();
 
-            }if(m_useAlphaChannel) textIndex++;
+            }
+            if(m_useAlphaChannel) textIndex++;
 
-                qDebug()<<"Color"<<r<<g<<b<<a<<"at"<<j<<i;
-                qDebug()<<" ";
-                image.setPixelColor(j, i, QColor(r, g ,b, a));
+
+            image.setPixelColor(j, i, QColor(r, g ,b, a));
         }
     }
 
-
     saveImage(image);
-
-
 
 }
 
@@ -139,7 +124,7 @@ int Encode::widthOfImage(int a) const
     return ( a/heightOfImage(a) );
 }
 
-void Encode::saveImage(QImage image)//TODO ? DontUseNativeDialog
+void Encode::saveImage(QImage image)
 {
     QSettings settings("MarekChoinski","Colorizer" );
 
@@ -158,10 +143,12 @@ void Encode::saveImage(QImage image)//TODO ? DontUseNativeDialog
         }
 
 }
-//TODO fixRussianCharacters
+
+//TODO fixRussianCharacters also
 void Encode::fixPolishCharacters(QString &text)
 {
 
+    //TODO std::map?
     // Ą, Ć, Ę, Ł, Ń, Ó, Ś, Ź, Ż, ą, ć, ę, ł, ń, ó, ś, ź, ż
     unsigned const short int polishUnicode[]      = {260, 262, 280, 321, 323, 211, 346, 377, 379, 261, 263, 281, 322, 324, 243, 347, 378, 380};
     unsigned const short int fixedPolishUnicode[] = {128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145};

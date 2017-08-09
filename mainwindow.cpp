@@ -3,29 +3,20 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-
-
     ui->setupUi(this);
     this->setFixedSize(QSize(600, 400));
     ui->stackedWidget->setCurrentIndex(0);
 
     checkSettings();
-    //QSettings settings("MarekChoinski","Colorizer" );
-    //settings.setValue("pref/s_useAlphaChannel", false);
-    //settings.setValue("pref/s_openAfterCoding", false);
-
-    //qDebug()<<settings.value("pref/s_openAfterCoding").toInt();
-    //qDebug()<<settings.contains("pref/s_openAfterCoding");
-    //settings.setValue("pref/s_openAfterCoding", 30);
-    //settings.sync();
-    //qDebug()<<settings.value("pref/s_openAfterCoding").toInt();
 
 }
+
 
 MainWindow::~MainWindow()
 {
     delete ui;
 }
+
 
 void MainWindow::checkSettings()
 {
@@ -59,7 +50,6 @@ void MainWindow::checkSettings()
         }
     }
 
-
 }
 
 
@@ -73,9 +63,6 @@ void MainWindow::on_pushButton_clicked()
     {
        Encode encode(fileName);
     }
-
-
-
 
 }
 
@@ -113,6 +100,7 @@ void MainWindow::on_pushButton_released()
                                     "background-color: rgba(150, 150, 150, 128);}");
 
     ui->label->setPixmap(QPixmap(":/logos/logo_normal.png"));
+
 }
 
 
@@ -126,6 +114,7 @@ void MainWindow::on_pushButton_2_clicked()
     {
         Decode decode(fileName);
     }
+
 }
 
 void MainWindow::on_pushButton_2_pressed()
@@ -161,6 +150,7 @@ void MainWindow::on_pushButton_2_released()
                                     "background-color: rgba(150, 150, 150, 128);}");
 
     ui->label->setPixmap(QPixmap(":/logos/logo_normal.png"));
+
 }
 
 void MainWindow::on_settingsButton_clicked()
@@ -178,7 +168,6 @@ void MainWindow::on_settingsButton_pressed()
     QPixmap pixmap(":/logos/question_mark_rotated.png");
     QIcon ButtonIcon(pixmap);
     ui->settingsButton->setIcon(ButtonIcon);
-    //button->setIconSize(qSize(40,40));
 }
 
 void MainWindow::on_settingsButton_released()
@@ -192,17 +181,12 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
 {
     QSettings settings("MarekChoinski", "Colorizer");
 
-    //settings.setValue("pref/s_useAlphaChannel", 5);
-    //settings.sync();
-
     if(ui->checkBox->isChecked())
         settings.setValue("pref/s_useAlphaChannel", true);
     else
         settings.setValue("pref/s_useAlphaChannel", false);
 
     settings.sync();
-
-    qDebug()<<settings.value("pref/s_useAlphaChannel").toBool();
 }
 
 void MainWindow::on_checkBox_2_stateChanged(int arg1)
@@ -215,6 +199,4 @@ void MainWindow::on_checkBox_2_stateChanged(int arg1)
         settings.setValue("pref/s_openAfterCoding", false);
 
     settings.sync();
-
-    qDebug()<<settings.value("pref/s_openAfterCoding").toBool();
 }
