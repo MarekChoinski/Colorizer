@@ -34,8 +34,6 @@
 #Ignore also
 *.png
 *.psd
-*.ui
-*.pro
 *.qrc
 *.user
 *.txt
